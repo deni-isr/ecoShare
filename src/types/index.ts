@@ -11,4 +11,5 @@ export interface Product {
   location: string;
   time: string;
   views?: number;
+  images?: string[];
 }

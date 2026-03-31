@@ -83,6 +83,19 @@ export const AddItem = () => {
             />
           </section>
 
+          <section className="bg-bg rounded-xl border border-border p-6 shadow-sm">
+            <h2 className="text-[13px] font-bold text-text-2 uppercase tracking-wider mb-4">Yhteystieto</h2>
+            <div>
+              <label className="block text-[14px] font-semibold text-text-2 mb-1.5">Puhelinnumero (WhatsApp)</label>
+              <input 
+                type="tel" 
+                required 
+                placeholder="+358 40 123 4567" 
+                className="w-full bg-fill-1 border border-border rounded-lg px-4 py-3 text-[15px] font-medium focus:outline-none focus:ring-2 focus:ring-green/50 transition-all"
+              />
+            </div>
+          </section>
+
         </div>
 
         <div className="flex flex-col gap-6">
