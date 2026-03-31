@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-green: #34C759;
+  --color-green-dark: #248a3d;
+  --color-green-light: #e8f8ed;
+  --color-green-glow: rgba(52,199,89,0.22);
+  --color-red: #FF3B30;
+  --color-orange: #FF9500;
+  --color-blue: #007AFF;
+
+  --color-text-1: #1C1C1E;
+  --color-text-2: #3a3a3c;
+  --color-text-3: #6e6e73;
+  --color-text-4: #aeaeb2;
+
+  --color-bg: #ffffff;
+  --color-bg-grouped: #F2F2F7;
+  --color-fill-1: #f2f2f7;
+  --color-fill-2: #e5e5ea;
+  --color-fill-3: #d1d1d6;
+
+  --color-border: rgba(60,60,67,0.1);
+  --color-border-mid: rgba(60,60,67,0.18);
+
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.09), 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.13), 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-xl: 0 24px 64px rgba(0,0,0,0.16), 0 8px 20px rgba(0,0,0,0.08);
+
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-grouped);
+    color: var(--color-text-1);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.2px;
+  }
+}
