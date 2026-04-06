@@ -23,7 +23,7 @@ export const Profile = () => {
           👤
         </div>
         <div>
-          <h1 className="text-2xl font-extrabold text-text-1 tracking-tight">Matti Meikäläinen</h1>
+          <h1 className="text-2xl font-extrabold text-text-1 tracking-tight">Random123</h1>
           <p className="text-text-3 font-medium mb-2">Liittynyt maaliskuussa 2026</p>
           <div className="flex gap-4">
             <div className="text-center">

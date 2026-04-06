@@ -10,7 +10,7 @@ export const Navbar = () => {
         <nav className="flex items-center gap-6">
           <Link to="/" className="text-[15px] font-medium text-text-2 hover:text-green transition-colors no-underline">Etusivu</Link>
           <Link to="/about" className="text-[15px] font-medium text-text-2 hover:text-green transition-colors no-underline">Tietoa</Link>
-          <Link to="/profile" className="w-9 h-9 bg-fill-2 rounded-full flex items-center justify-center hover:bg-fill-3 transition-colors no-underline">👤</Link>
+          <Link to="/profile" className="text-[15px] font-medium text-text-2 hover:text-green transition-colors no-underline">Profiili</Link>
           <Link to="/add" className="bg-green text-white px-5 py-2 rounded-pill text-[14px] font-bold shadow-sm hover:-translate-y-[1px] hover:bg-green-dark transition-all no-underline">
             + Lisää
           </Link>

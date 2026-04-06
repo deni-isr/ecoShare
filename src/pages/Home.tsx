@@ -79,16 +79,10 @@ export const Home = () => {
   const [activeCategory, setActiveCategory] = useState('Kaikki');
   const [showBanner, setShowBanner] = useState(false);
 
-  // Логика появления баннера через 1.8с (как в твоем HTML)
-  useEffect(() => {
-    const timer = setTimeout(() => setShowBanner(true), 1800);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <div className="animate-in fade-in duration-500 relative pb-10">
       
-      {/* ── HERO ── */}
       <section className="bg-white rounded-xl py-12 px-10 mb-8 shadow-sm border border-border text-center relative overflow-hidden">
         <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-[radial-gradient(ellipse,rgba(52,199,89,0.1)_0%,transparent_70%)] pointer-events-none"></div>
         
@@ -125,7 +119,6 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* ── CATEGORIES ── */}
       <div className="flex items-center gap-2 mb-7 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
         {CATEGORIES.map((cat, i) => (
           <button 
@@ -147,7 +140,6 @@ export const Home = () => {
         ))}
       </div>
 
-      {/* ── GRID ── */}
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-[20px] font-extrabold tracking-tight text-text-1">Uusimmat ilmoitukset</h2>
