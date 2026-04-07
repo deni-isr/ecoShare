@@ -4,81 +4,49 @@ import { ProductCard } from '../components/domain/ProductCard';
 import { ProductModal } from '../components/domain/ProductModal';
 import { type Product } from '../types';
 
-const CATEGORIES = ['Kaikki', 'Kodinkoneet', 'Huonekalut', 'Vaatteet', 'Kirjat', 'Työkalut'];
-
-const DUMMY_PRODUCTS: Product[] = [
-  {
-    id: '1',
-    title: 'Moccamaster KB 741',
-    categoryEmoji: '☕',
-    bgGradient: 'linear-gradient(145deg, #fff8f2, #ffe0c0)',
-    status: 'repair',
-    description: 'Vastus poikki — kahvi ei kuumene. Virtajohto viallinen.',
-    location: 'Helsinki, Kallio',
-    time: '2 t sitten',
-    images: [
-      'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&q=80&w=800'
-    ]
-  },
-  {
-    id: '2',
-    title: 'IKEA EKTORP -sohva',
-    categoryEmoji: '🛋️',
-    bgGradient: 'linear-gradient(145deg, #f0f5ff, #d5e6ff)',
-    status: 'donate',
-    description: '3-istuttava · beige · Pieni tahra vasemmalla istuimella.',
-    location: 'Espoo, Tapiola',
-    time: '5 t sitten'
-  },
-  {
-    id: '3',
-    title: 'Naisten polkupyörä 26"',
-    categoryEmoji: '🚲',
-    bgGradient: 'linear-gradient(145deg, #f0fff4, #c6f0d4)',
-    status: 'repair',
-    description: 'Takajarru ei toimi kunnolla. Ketju vaatii voitelun.',
-    location: 'Vantaa, Tikkurila',
-    time: '1 pv sitten'
-  },
-  {
-    id: '4',
-    title: 'Akustinen kitara Yamaha',
-    categoryEmoji: '🎸',
-    bgGradient: 'linear-gradient(145deg, #f3e5f5, #e1c4f5)',
-    status: 'sell',
-    price: '45 €',
-    description: 'Pintanaarmuja kaulassa. Yksi kiristysnuppi löysällä.',
-    location: 'Tampere, Keskusta',
-    time: '4 t sitten'
-  },
-  {
-    id: '5',
-    title: 'Vintage-lattiavalaisin',
-    categoryEmoji: '🪔',
-    bgGradient: 'linear-gradient(145deg, #fffde7, #fff9c4)',
-    status: 'sell',
-    price: '28 €',
-    description: '1970-luku · messinki · toimii täydellisesti.',
-    location: 'Turku, Läntinen',
-    time: '6 t sitten'
-  },
-  {
-    id: '6',
-    title: 'Monstera-kasvi (iso)',
-    categoryEmoji: '🪴',
-    bgGradient: 'linear-gradient(145deg, #e8f5e9, #c8e6c9)',
-    status: 'donate',
-    description: 'Iso · istutettu 2022 · terve ja hyvinvoiva.',
-    location: 'Helsinki, Töölö',
-    time: '3 t sitten'
-  }
-];
+const CATEGORIES = ['Kaikki', 'Kodinkoneet', 'Huonekalut', 'Urheilu', 'Vaatteet', 'Kirjat', 'Työkalut'];
 
 export const Home = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [activeCategory, setActiveCategory] = useState('Kaikki');
   const [showBanner, setShowBanner] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
 
+  const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+
+  useEffect(() => {
+    if (!currentUser.id) {
+      const timer = setTimeout(() => setShowBanner(true), 1800);
+      return () => clearTimeout(timer);
+    }
+  }, [currentUser.id]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/products');
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        }
+      } catch (error) {
+        console.error('Virhe haettaessa ilmoituksia:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const filteredProducts = products.filter(p => {
+  const matchesCategory = activeCategory === 'Kaikki' || p.category === activeCategory;
+  const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                        p.description.toLowerCase().includes(searchQuery.toLowerCase());
+  return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="animate-in fade-in duration-500 relative pb-10">
@@ -108,6 +76,8 @@ export const Home = () => {
             <input 
               type="text" 
               placeholder="Mitä haluat pelastaa?" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-[52px] bg-fill-1 border-[1.5px] border-transparent rounded-pill pl-[50px] pr-[56px] text-[15.5px] font-medium text-text-1 outline-none transition-all focus:bg-white focus:border-green focus:shadow-[0_0_0_4px_rgba(52,199,89,0.15)]"
             />
             <button className="absolute right-[6px] top-1/2 -translate-y-1/2 w-10 h-10 bg-green text-white rounded-pill flex items-center justify-center hover:bg-[#2fb350] hover:scale-105 transition-all shadow-[0_2px_8px_rgba(52,199,89,0.22)]">
@@ -142,28 +112,30 @@ export const Home = () => {
 
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[20px] font-extrabold tracking-tight text-text-1">Uusimmat ilmoitukset</h2>
-          <button className="text-[14px] font-semibold text-green hover:opacity-75 transition-opacity">
-            Näytä kaikki →
-          </button>
+          <h2 className="text-[20px] font-extrabold tracking-tight text-text-1">
+            {activeCategory === 'Kaikki' ? 'Uusimmat ilmoitukset' : `${activeCategory} (${filteredProducts.length})`}
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {DUMMY_PRODUCTS.map(product => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              onClick={() => setSelectedProduct(product)} 
-            />
-          ))}
-        </div>
-        
-        <div className="text-center pt-8">
-          <button className="inline-flex items-center gap-1.5 px-7 py-3 bg-white border-[1.5px] border-border rounded-pill text-[14px] font-semibold text-text-2 hover:border-green hover:text-green hover:-translate-y-[1px] transition-all shadow-xs">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-            Lataa lisää
-          </button>
-        </div>
+        {isLoading ? (
+          <div className="text-center py-10 text-text-3 font-medium">Ladataan ilmoituksia...</div>
+        ) : filteredProducts.length === 0 ? (
+          <div className="text-center py-12 bg-white rounded-xl border border-border">
+            <div className="text-4xl mb-3">🔍</div>
+            <h3 className="text-lg font-bold text-text-1 mb-1">Ei ilmoituksia vielä</h3>
+            <p className="text-text-3 text-sm">Tässä kategoriassa ei ole vielä yhtään ilmoitusta. Ole ensimmäinen!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {filteredProducts.map(product => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                onClick={() => setSelectedProduct(product)} 
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       <ProductModal 
@@ -172,7 +144,6 @@ export const Home = () => {
         onClose={() => setSelectedProduct(null)} 
       />
 
-      {/* ── GUEST BANNER ── */}
       <div 
         className={`fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-border/50 py-4 px-6 md:px-10 z-[90] transition-transform duration-500 ease-[cubic-bezier(0.32,1.1,0.64,1)] shadow-[0_-4px_32px_rgba(0,0,0,0.08)] ${
           showBanner ? 'translate-y-0' : 'translate-y-full'

@@ -1,15 +1,16 @@
 export type ProductStatus = 'repair' | 'donate' | 'sell';
 
 export interface Product {
-  id: string;
+  id: string | number;
   title: string;
-  categoryEmoji: string;
-  bgGradient: string;
-  status: ProductStatus;
-  price?: string;
+  category?: string;
   description: string;
   location: string;
-  time: string;
-  views?: number;
+  item_condition?: string;
+  status: ProductStatus;
+  price?: string | null;
+  contact_phone?: string;
+  created_at?: string;
+  time?: string;
   images?: string[];
 }
