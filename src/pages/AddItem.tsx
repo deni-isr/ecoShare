@@ -60,7 +60,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     });
 
     try {
-      const response = await fetch('http://localhost:5000/api/products', {
+      const response = await fetch('https://ecoshare-backend.onrender.com/api/products', {
         method: 'POST',
         body: formDataToSend
       });
@@ -161,7 +161,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
               <input 
                 type="text" 
                 name="title" required value={formData.title} onChange={handleChange}
-                placeholder="esim. Moccamaster KB 741" 
+                placeholder="esim: Kahvinkeitin" 
                 className="w-full bg-fill-1 border border-border rounded-lg px-4 py-3 text-[15px] font-medium outline-none focus:bg-white focus:border-green transition-all"
               />
             </div>

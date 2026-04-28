@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Login = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const successMessage = location.state?.message;
 
@@ -20,7 +19,7 @@ export const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
+      const response = await fetch('https://ecoshare-backend.onrender.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -33,7 +32,7 @@ export const Login = () => {
       }
 
       localStorage.setItem('user', JSON.stringify(data.user));
-      navigate('/');
+      window.location.href = '/';
       
     } catch (error) {
       if (error instanceof Error) {

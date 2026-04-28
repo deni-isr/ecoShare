@@ -26,7 +26,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products');
+        const response = await fetch('https://ecoshare-backend.onrender.com/api/products');
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
@@ -42,16 +42,16 @@ export const Home = () => {
   }, []);
 
   const filteredProducts = products.filter(p => {
-  const matchesCategory = activeCategory === 'Kaikki' || p.category === activeCategory;
-  const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                        p.description.toLowerCase().includes(searchQuery.toLowerCase());
-  return matchesCategory && matchesSearch;
+    const matchesCategory = activeCategory === 'Kaikki' || p.category === activeCategory;
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
   });
 
   return (
-    <div className="animate-in fade-in duration-500 relative pb-10">
+    <div className="animate-in fade-in duration-500 relative pb-10 px-4 md:px-0">
       
-      <section className="bg-white rounded-xl py-12 px-10 mb-8 shadow-sm border border-border text-center relative overflow-hidden">
+      <section className="bg-white rounded-[24px] p-6 md:py-12 md:px-10 mt-4 mb-8 shadow-sm border border-border text-center relative overflow-hidden">
         <div className="absolute -top-[60px] left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-[radial-gradient(ellipse,rgba(52,199,89,0.1)_0%,transparent_70%)] pointer-events-none"></div>
         
         <div className="relative z-10">
@@ -62,10 +62,10 @@ export const Home = () => {
             Annetaan tavaroille uusi elämä
           </div>
           
-          <h1 className="text-[38px] font-extrabold text-text-1 mb-2 tracking-tight leading-tight">
+          <h1 className="text-2xl md:text-[38px] font-extrabold text-text-1 mb-2 tracking-tight leading-tight">
             Mitä haluat <em className="not-italic text-green">pelastaa</em>?
           </h1>
-          <p className="text-[15.5px] text-text-3 font-medium mb-7">
+          <p className="text-[14px] md:text-[15.5px] text-text-3 font-medium mb-6 md:mb-7">
             Löydä korjattavaa, lahjoitettavaa ja myytävää läheltäsi.
           </p>
           
@@ -89,7 +89,7 @@ export const Home = () => {
         </div>
       </section>
 
-      <div className="flex items-center gap-2 mb-7 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex items-center gap-2 mb-7 overflow-x-auto pb-2 custom-scrollbar">
         {CATEGORIES.map((cat, i) => (
           <button 
             key={cat} 
@@ -112,7 +112,7 @@ export const Home = () => {
 
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-[20px] font-extrabold tracking-tight text-text-1">
+          <h2 className="text-xl md:text-[20px] font-extrabold tracking-tight text-text-1">
             {activeCategory === 'Kaikki' ? 'Uusimmat ilmoitukset' : `${activeCategory} (${filteredProducts.length})`}
           </h2>
         </div>

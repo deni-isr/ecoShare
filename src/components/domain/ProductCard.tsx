@@ -29,7 +29,7 @@ export const ProductCard = ({ product, onClick, showFavorite = true }: Props) =>
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/favorites/toggle', {
+      const response = await fetch('https://ecoshare-backend.onrender.com/api/favorites/toggle', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -55,7 +55,7 @@ export const ProductCard = ({ product, onClick, showFavorite = true }: Props) =>
     try {
       const parsed = typeof product.images === 'string' ? JSON.parse(product.images) : product.images;
       if (Array.isArray(parsed) && parsed.length > 0) {
-        imageUrl = `http://localhost:5000${parsed[0]}`;
+        imageUrl = `https://ecoshare-backend.onrender.com${parsed[0]}`;
       }
     } catch {
       // Убрали переменную 'e', так как она не использовалась

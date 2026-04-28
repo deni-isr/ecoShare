@@ -63,7 +63,7 @@ app.post('/api/login', async (req, res) => {
     
     res.json({ 
       message: 'Kirjautuminen onnistui!',
-      user: { id: user.id, firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email }
+      user: { id: user.id, firstname: user.firstname, lastname: user.lastname, username: user.username, email: user.email, is_admin: user.is_admin }
     });
   } catch (error) {
     res.status(500).json({ message: 'Palvelinvirhe' });
@@ -138,11 +138,10 @@ app.post('/api/users/avatar/:userId', upload.single('avatar'), async (req, res) 
     await db.promise().query('UPDATE users SET avatar_url = ? WHERE id = ?', [avatarUrl, req.params.userId]);
     res.json({ avatarUrl });
   } catch (error) {
-    res.status(500).json({ message: 'Avatarin päivitysvirhe' });
+    res.status(500).json({ message: 'Päivitysvirhe' });
   }
 });
 
-// Переключить статус лайка (добавить или убрать)
 app.post('/api/favorites/toggle', async (req, res) => {
   const { userId, productId } = req.body;
   try {
@@ -163,7 +162,6 @@ app.post('/api/favorites/toggle', async (req, res) => {
   }
 });
 
-// Получить все лайкнутые товары пользователя
 app.get('/api/favorites/:userId', async (req, res) => {
   try {
     const [favorites] = await db.promise().query(
@@ -178,7 +176,33 @@ app.get('/api/favorites/:userId', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.get('/api/admin/users', async (req, res) => {
+  try {
+    const [users] = await db.promise().query(
+      'SELECT id, firstname, lastname, username, email, is_admin, created_at FROM users ORDER BY created_at DESC'
+    );
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: 'Error' });
+  }
 });
+
+// Admin käsky käyttäjien poistamiseen
+app.delete('/api/admin/users/:id', async (req, res) => {
+  try {
+    await db.promise().query('DELETE FROM users WHERE id = ?', [req.params.id]);
+    res.json({ message: 'Deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error' });
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

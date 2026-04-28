@@ -6,6 +6,7 @@ import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { AddItem } from './pages/AddItem';
 import { Profile } from './pages/Profile';
+import { Admin } from './pages/Admin';
 
 const Layout = () => (
   <div className="min-h-screen flex flex-col">
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="register" element={<Register />} />
           <Route path="add" element={<AddItem />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>
