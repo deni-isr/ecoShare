@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
   const isLoggedIn = !!currentUser.id;
 
