@@ -202,7 +202,7 @@ export const Register = () => {
         <div className="mt-6 text-center text-[14px] font-medium text-text-3">
           Onko sinulla jo tili?{' '}
           <Link to="/login" className="text-green font-bold hover:underline">
-            Kirjaudu sisään →
+            Kirjaudu sisään
           </Link>
         </div>
         
