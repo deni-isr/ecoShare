@@ -102,30 +102,72 @@ export const Profile = () => {
     }
   };
 
+  const handleLogout = () => {
+    if (window.confirm('Haluatko varmasti kirjautua ulos?')) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      navigate('/');
+      window.location.reload();
+    }
+  };
+
   if (!currentUser.id) return null;
 
   return (
     <div className="max-w-[1000px] mx-auto pb-10 px-4 animate-in fade-in duration-500 pt-8">
       <div className="bg-white rounded-2xl border border-border p-8 mb-8 shadow-sm flex items-center gap-6 relative">
-        <button onClick={() => { localStorage.removeItem('user'); navigate('/'); }} className="absolute top-4 right-4 text-[13px] font-bold text-red hover:bg-red-light/20 px-3 py-1.5 rounded-lg">
+        <button 
+          onClick={handleLogout} 
+          className="absolute top-4 right-4 text-[13px] font-bold text-red hover:bg-red-light/20 px-3 py-1.5 rounded-lg transition-colors"
+        >
           Kirjaudu ulos
         </button>
-        <div onClick={() => fileInputRef.current?.click()} className="group relative w-24 h-24 bg-green-light rounded-full border-4 border-white shadow-md cursor-pointer overflow-hidden shrink-0">
-          {currentUser.avatar_url ? <img src={`https://ecoshare-backend.onrender.com${currentUser.avatar_url}`} className="w-full h-full object-cover" /> : <span className="flex h-full items-center justify-center text-4xl">👤</span>}
+
+        <div 
+          onClick={() => fileInputRef.current?.click()} 
+          className="group relative w-24 h-24 bg-green-light rounded-full border-4 border-white shadow-md cursor-pointer overflow-hidden shrink-0"
+        >
+          {currentUser.avatar_url ? (
+            <img src={`https://ecoshare-backend.onrender.com${currentUser.avatar_url}`} className="w-full h-full object-cover" />
+          ) : (
+            <span className="flex h-full items-center justify-center text-4xl">👤</span>
+          )}
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-white text-[10px] font-bold uppercase">Vaihda</span>
+          </div>
         </div>
+        
         <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleAvatarChange} />
+        
         <div>
-          <h1 className="text-2xl font-black text-text-1">{currentUser.firstname} {currentUser.lastname}</h1>
-          <p className="text-text-3 font-medium">@{currentUser.username}</p>
+          <h1 className="text-2xl font-black text-text-1 mb-1">
+            {currentUser.firstname} {currentUser.lastname}
+          </h1>
+          <p className="text-text-3 font-medium mb-3">
+            @{currentUser.username || currentUser.email.split('@')[0]}
+          </p>
+
+          <div className="flex flex-wrap gap-2">
+            {currentUser.is_admin === 1 && (
+              <span className="bg-blue text-white px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider shadow-sm">
+                Ylläpitäjä
+              </span>
+            )}
+            {currentUser.is_master === 1 && (
+              <span className="bg-orange text-white px-2.5 py-1 rounded-md text-[11px] font-black uppercase tracking-wider shadow-sm">
+                Korjaaja
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
       <div className="flex border-b border-border mb-8 gap-8">
-        <button onClick={() => setActiveTab('listings')} className={`pb-4 text-[15px] font-bold relative ${activeTab === 'listings' ? 'text-green' : 'text-text-3'}`}>
+        <button onClick={() => setActiveTab('listings')} className={`pb-4 text-[15px] font-bold relative transition-colors ${activeTab === 'listings' ? 'text-green' : 'text-text-3 hover:text-text-2'}`}>
           Omat ilmoitukset ({userListings.length})
           {activeTab === 'listings' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-green rounded-t-full" />}
         </button>
-        <button onClick={() => setActiveTab('favorites')} className={`pb-4 text-[15px] font-bold relative ${activeTab === 'favorites' ? 'text-green' : 'text-text-3'}`}>
+        <button onClick={() => setActiveTab('favorites')} className={`pb-4 text-[15px] font-bold relative transition-colors ${activeTab === 'favorites' ? 'text-green' : 'text-text-3 hover:text-text-2'}`}>
           Suosikit ({favoriteListings.length})
           {activeTab === 'favorites' && <div className="absolute bottom-0 left-0 right-0 h-1 bg-green rounded-t-full" />}
         </button>
@@ -144,8 +186,8 @@ export const Profile = () => {
               />
               {activeTab === 'listings' && (
                 <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                  <button onClick={() => setEditingProduct(item)} className="w-8 h-8 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-fill-1">✏️</button>
-                  <button onClick={() => handleDelete(item.id)} className="w-8 h-8 bg-white shadow-lg rounded-full flex items-center justify-center text-red hover:bg-red-light">🗑️</button>
+                  <button onClick={() => setEditingProduct(item)} className="w-8 h-8 bg-white shadow-lg rounded-full flex items-center justify-center hover:bg-fill-1 transition-transform hover:scale-110">✏️</button>
+                  <button onClick={() => handleDelete(item.id)} className="w-8 h-8 bg-white shadow-lg rounded-full flex items-center justify-center text-red hover:bg-red-light transition-transform hover:scale-110">🗑️</button>
                 </div>
               )}
             </div>
@@ -154,26 +196,28 @@ export const Profile = () => {
       )}
 
       {editingProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative animate-in zoom-in-95">
-            <button onClick={() => setEditingProduct(null)} className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-fill-2 rounded-full font-bold hover:bg-fill-3">✕</button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white w-full max-w-md rounded-2xl p-6 shadow-2xl relative animate-in zoom-in-95 duration-200">
+            <button onClick={() => setEditingProduct(null)} className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-fill-2 rounded-full font-bold hover:bg-fill-3 transition-colors">✕</button>
             <h3 className="text-xl font-bold mb-4">Muokkaa ilmoitusta</h3>
             <form onSubmit={handleUpdateProduct} className="flex flex-col gap-4">
               <div>
                 <label className="block text-[13px] font-bold text-text-3 mb-1">Otsikko</label>
-                <input type="text" value={editingProduct.title} onChange={(e) => setEditingProduct({...editingProduct, title: e.target.value})} className="w-full bg-fill-1 border border-border rounded-lg px-4 py-2 outline-none focus:border-green" />
+                <input type="text" value={editingProduct.title} onChange={(e) => setEditingProduct({...editingProduct, title: e.target.value})} className="w-full bg-fill-1 border border-border rounded-lg px-4 py-2 outline-none focus:border-green transition-all" />
               </div>
               <div>
                 <label className="block text-[13px] font-bold text-text-3 mb-1">Kuvaus</label>
-                <textarea value={editingProduct.description} onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})} className="w-full bg-fill-1 border border-border rounded-lg px-4 py-2 h-24 resize-none outline-none focus:border-green" />
+                <textarea value={editingProduct.description} onChange={(e) => setEditingProduct({...editingProduct, description: e.target.value})} className="w-full bg-fill-1 border border-border rounded-lg px-4 py-2 h-24 resize-none outline-none focus:border-green transition-all" />
               </div>
               {editingProduct.status === 'sell' && (
                 <div>
                   <label className="block text-[13px] font-bold text-text-3 mb-1">Hinta (€)</label>
-                  <input type="number" value={editingProduct.price || ''} onChange={(e) => setEditingProduct({...editingProduct, price: e.target.value})} className="w-full bg-fill-1 border border-border rounded-lg px-4 py-2 outline-none focus:border-green" />
+                  <input type="number" value={editingProduct.price || ''} onChange={(e) => setEditingProduct({...editingProduct, price: e.target.value})} className="w-full bg-fill-1 border border-border rounded-lg px-4 py-2 outline-none focus:border-green transition-all" />
                 </div>
               )}
-              <button type="submit" className="w-full bg-green text-white font-bold py-3 rounded-xl mt-2 hover:bg-[#2fb350] transition-colors">Tallenna muutokset</button>
+              <button type="submit" className="w-full bg-green text-white font-bold py-3 rounded-xl mt-2 hover:bg-[#2fb350] shadow-md transition-all active:scale-[0.98]">
+                Tallenna muutokset
+              </button>
             </form>
           </div>
         </div>

@@ -43,11 +43,22 @@ export const Home = () => {
 
   const filteredProducts = products.filter(p => {
     const matchesCategory = activeCategory === 'Kaikki' || p.category === activeCategory;
-    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          p.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase()) || p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    let isVisible = true; 
+    
+    if (p.status === 'repair') {
+      if (!currentUser.id) {
 
+        isVisible = false;
+      } else {
+
+        isVisible = (currentUser.is_master === 1) || (p.user_id === currentUser.id);
+      }
+    }
+
+    return matchesCategory && matchesSearch && isVisible;
+  });
   return (
     <div className="animate-in fade-in duration-500 relative pb-10 px-4 md:px-0">
       

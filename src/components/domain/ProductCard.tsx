@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { type Product } from '../../types';
 
 /**
- * Пропсы для компонента карточки товара
- * @param product - объект товара из БД
- * @param onClick - функция при клике на саму карточку
- * @param showFavorite - показывать ли кнопку сердечка
+ * 
+ * @param product 
+ * @param onClick 
+ * @param showFavorite 
  */
 export interface Props {
   product: Product;
@@ -17,9 +17,7 @@ export const ProductCard = ({ product, onClick, showFavorite = true }: Props) =>
   const [isLiked, setIsLiked] = useState(false);
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
 
-  /**
-   * Обработка клика по сердечку (Добавление в избранное)
-   */
+  
   const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation(); 
     
@@ -47,9 +45,6 @@ export const ProductCard = ({ product, onClick, showFavorite = true }: Props) =>
     }
   };
 
-  /**
-   * Обработка путей к изображениям
-   */
   let imageUrl = null;
   if (product.images) {
     try {
@@ -58,7 +53,6 @@ export const ProductCard = ({ product, onClick, showFavorite = true }: Props) =>
         imageUrl = `https://ecoshare-backend.onrender.com${parsed[0]}`;
       }
     } catch {
-      // Убрали переменную 'e', так как она не использовалась
       console.error("Kuvan jäsennysvirhe");
     }
   }

@@ -198,7 +198,7 @@ export const ProductModal = ({ product, isOpen, onClose }: Props) => {
                 {product.item_condition && (
                     <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2 text-[13px] md:text-[14px] font-bold text-text-1 bg-[#fff8f2] px-4 py-3 rounded-lg border border-[#ffe0c0]">
                       <span className="flex items-center gap-1.5 text-[#bf360c]">
-                        ⚠️ Kunto / Vika:
+                       Kunto :
                       </span>
                       <span className="font-medium text-text-2">{product.item_condition}</span>
                     </div>
@@ -207,6 +207,21 @@ export const ProductModal = ({ product, isOpen, onClose }: Props) => {
             </div>
 
             <div className="flex flex-col gap-3 md:gap-4">
+              
+              {(product as any).is_master === 1 && (
+                <div className="bg-orange/10 border border-orange/20 rounded-xl p-3 flex gap-3 items-start shadow-sm mb-1">
+                  <div className="text-2xl pt-1">🛠️</div>
+                  <div>
+                    <div className="text-[13px] font-black text-orange uppercase tracking-wide mb-0.5">
+                      Virallinen korjaaja
+                    </div>
+                    <div className="text-[12px] text-text-3 font-medium leading-tight">
+                      Tämä käyttäjä on vahvistettu luotettavaksi korjaajaksi.
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="bg-white border-2 border-border p-3 md:p-4 rounded-xl flex flex-row md:flex-col lg:flex-row items-center justify-between md:items-start lg:items-center shadow-sm">
                 <div className="text-[12px] md:text-[13px] font-bold text-text-3 uppercase tracking-wider">Hinta</div>
                 {product.status === 'sell' && product.price ? (

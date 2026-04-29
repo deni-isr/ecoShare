@@ -1,113 +1,172 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { type Product } from '../types';
 
-interface User {
+interface AdminUser {
   id: number;
   firstname: string;
   lastname: string;
-  username: string;
   email: string;
   is_admin: number;
+  is_master?: number;
+}
+
+interface AdminProduct {
+  id: number;
+  title: string;
+  category: string;
+  status: string;
+  user_id: number;
 }
 
 export const Admin = () => {
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [products, setProducts] = useState<AdminProduct[]>([]);
+  const [activeTab, setActiveTab] = useState<'users' | 'products'>('users');
+  const [isLoading, setIsLoading] = useState(true);
+  
   const navigate = useNavigate();
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-  const [users, setUsers] = useState<User[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [tab, setTab] = useState<'users' | 'products'>('users');
 
   useEffect(() => {
-    if (currentUser.is_admin !== 1) { navigate('/'); return; }
-    fetch('https://ecoshare-backend.onrender.com/api/admin/users').then(r => r.json()).then(setUsers);
-    fetch('https://ecoshare-backend.onrender.com/api/products').then(r => r.json()).then(setProducts);
+    if (currentUser.is_admin !== 1) {
+      navigate('/');
+    }
+  }, [currentUser, navigate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [usersRes, productsRes] = await Promise.all([
+          fetch('https://ecoshare-backend.onrender.com/api/admin/users'), // Замени на свой API если нужно
+          fetch('https://ecoshare-backend.onrender.com/api/products')
+        ]);
+        
+        if (usersRes.ok) setUsers(await usersRes.json());
+        if (productsRes.ok) setProducts(await productsRes.json());
+      } catch (error) {
+        console.error('Virhe tietojen latauksessa:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
+  const toggleMaster = async (id: number, currentStatus: number | undefined) => {
+    const newStatus = currentStatus === 1 ? 0 : 1;
+    try {
+      const res = await fetch(`https://ecoshare-backend.onrender.com/api/admin/users/${id}/master`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_master: newStatus })
+      });
+      if (res.ok) {
+        setUsers(users.map(u => u.id === id ? { ...u, is_master: newStatus } : u));
+      }
+    } catch (err) {
+      console.error('Virhe roolin vaihdossa', err);
+    }
+  };
+
+  const editProductTitle = async (id: number, currentTitle: string) => {
+    const newTitle = window.prompt('Syötä uusi otsikko:', currentTitle);
+    if (!newTitle || newTitle === currentTitle) return; // Если отменили или не изменили
+
+    try {
+      const res = await fetch(`https://ecoshare-backend.onrender.com/api/admin/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: newTitle })
+      });
+      if (res.ok) {
+        setProducts(products.map(p => p.id === id ? { ...p, title: newTitle } : p));
+      }
+    } catch (err) {
+      console.error('Virhe muokkauksessa', err);
+    }
+  };
+
+
   const deleteUser = async (id: number) => {
-    if (confirm('Poistetaanko käyttäjä?')) {
+    if (!window.confirm('Haluatko varmasti poistaa tämän käyttäjän?')) return;
+    try {
       await fetch(`https://ecoshare-backend.onrender.com/api/admin/users/${id}`, { method: 'DELETE' });
       setUsers(users.filter(u => u.id !== id));
-    }
+    } catch (err) { console.error(err); }
   };
 
-  const deleteProduct = async (id: number | string) => {
-    if (confirm('Poistetaanko ilmoitus?')) {
+
+  const deleteProduct = async (id: number) => {
+    if (!window.confirm('Haluatko varmasti poistaa tämän ilmoituksen?')) return;
+    try {
       await fetch(`https://ecoshare-backend.onrender.com/api/products/${id}`, { method: 'DELETE' });
       setProducts(products.filter(p => p.id !== id));
-    }
+    } catch (err) { console.error(err); }
   };
 
+  if (isLoading) return <div className="text-center p-10">Ladataan hallintapaneelia...</div>;
+
   return (
-    <div className="max-w-[1200px] mx-auto p-4 md:p-6 pb-20 animate-in fade-in duration-300">
-      <h1 className="text-2xl md:text-3xl font-black mb-6 text-text-1">Ylläpito</h1>
-      
-      {/* Адаптивные вкладки: на телефоне они занимают всю ширину (flex-1) */}
-      <div className="flex gap-2 md:gap-4 mb-6">
+    <div className="max-w-6xl mx-auto px-4 py-8 animate-in fade-in duration-500">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-3xl font-extrabold text-text-1">Hallintapaneeli</h1>
+        <div className="bg-orange/10 text-orange px-4 py-2 rounded-lg font-bold text-sm border border-orange/20">
+          Admin-tila
+        </div>
+      </div>
+
+      <div className="flex gap-4 mb-6 border-b border-border pb-4">
         <button 
-          onClick={() => setTab('users')} 
-          className={`flex-1 md:flex-none px-3 py-2.5 md:px-4 md:py-2 rounded-lg font-bold text-[14px] md:text-[16px] transition-all ${tab === 'users' ? 'bg-green text-white shadow-md' : 'bg-fill-2 text-text-2 hover:bg-fill-1'}`}
+          onClick={() => setActiveTab('users')}
+          className={`px-6 py-2.5 rounded-pill font-bold transition-all ${activeTab === 'users' ? 'bg-green text-white shadow-md' : 'bg-fill-1 text-text-2 hover:bg-fill-2'}`}
         >
-          Käyttäjät
+          Käyttäjät ({users.length})
         </button>
         <button 
-          onClick={() => setTab('products')} 
-          className={`flex-1 md:flex-none px-3 py-2.5 md:px-4 md:py-2 rounded-lg font-bold text-[14px] md:text-[16px] transition-all ${tab === 'products' ? 'bg-green text-white shadow-md' : 'bg-fill-2 text-text-2 hover:bg-fill-1'}`}
+          onClick={() => setActiveTab('products')}
+          className={`px-6 py-2.5 rounded-pill font-bold transition-all ${activeTab === 'products' ? 'bg-green text-white shadow-md' : 'bg-fill-1 text-text-2 hover:bg-fill-2'}`}
         >
-          Ilmoitukset
+          Ilmoitukset ({products.length})
         </button>
       </div>
 
-      {/* Обертка для таблицы с overflow-x-auto для горизонтального свайпа на телефонах */}
-      <div className="bg-white border border-border rounded-xl overflow-x-auto shadow-sm">
-        {tab === 'users' ? (
-          <table className="w-full text-left min-w-[500px]">
-            <thead className="bg-fill-1">
-              <tr>
-                <th className="p-3 md:p-4 text-[13px] md:text-[14px] text-text-2 uppercase">Nimi</th>
-                <th className="p-3 md:p-4 text-[13px] md:text-[14px] text-text-2 uppercase">Email</th>
-                <th className="p-3 md:p-4 text-[13px] md:text-[14px] text-text-2 uppercase text-right">Toiminto</th>
+      {activeTab === 'users' && (
+        <div className="bg-white rounded-xl shadow-sm border border-border overflow-hidden">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-fill-1 border-b border-border text-text-2 text-sm">
+                <th className="p-4 font-bold">Nimi</th>
+                <th className="p-4 font-bold">Sähköposti</th>
+                <th className="p-4 font-bold">Rooli</th>
+                <th className="p-4 font-bold text-right">Toiminnot</th>
               </tr>
             </thead>
             <tbody>
               {users.map(u => (
-                <tr key={u.id} className="border-t border-border hover:bg-fill-1/30 transition-colors">
-                  <td className="p-3 md:p-4 font-bold text-[14px] md:text-[15px] text-text-1">{u.firstname} {u.lastname}</td>
-                  <td className="p-3 md:p-4 text-[14px] md:text-[15px] text-text-2">{u.email}</td>
-                  <td className="p-3 md:p-4 text-right">
-                    {u.is_admin !== 1 && (
-                      <button 
-                        onClick={() => deleteUser(u.id)} 
-                        className="text-red font-bold text-[13px] md:text-[14px] bg-red/10 px-3 py-1.5 rounded-md hover:bg-red hover:text-white transition-colors"
-                      >
-                        Poista
-                      </button>
+                <tr key={u.id} className="border-b border-border last:border-0 hover:bg-fill-1/50">
+                  <td className="p-4 font-semibold text-text-1">{u.firstname} {u.lastname}</td>
+                  <td className="p-4 text-text-3">{u.email}</td>
+                  <td className="p-4">
+                    {u.is_admin === 1 ? (
+                      <span className="bg-blue/10 text-blue px-2 py-1 rounded text-xs font-bold">Admin</span>
+                    ) : u.is_master === 1 ? (
+                      <span className="bg-orange/10 text-orange px-2 py-1 rounded text-xs font-bold uppercase">🛠️ Master</span>
+                    ) : (
+                      <span className="bg-fill-2 text-text-3 px-2 py-1 rounded text-xs font-bold">Käyttäjä</span>
                     )}
                   </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <table className="w-full text-left min-w-[500px]">
-            <thead className="bg-fill-1">
-              <tr>
-                <th className="p-3 md:p-4 text-[13px] md:text-[14px] text-text-2 uppercase">Otsikko</th>
-                <th className="p-3 md:p-4 text-[13px] md:text-[14px] text-text-2 uppercase">Kategoria</th>
-                <th className="p-3 md:p-4 text-[13px] md:text-[14px] text-text-2 uppercase text-right">Toiminto</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map(p => (
-                <tr key={p.id} className="border-t border-border hover:bg-fill-1/30 transition-colors">
-                  <td className="p-3 md:p-4 font-bold text-[14px] md:text-[15px] text-text-1 max-w-[150px] md:max-w-[300px] truncate">
-                    {p.title}
-                  </td>
-                  <td className="p-3 md:p-4 text-[14px] md:text-[15px] text-text-2">{p.category}</td>
-                  <td className="p-3 md:p-4 text-right">
+                  <td className="p-4 flex gap-2 justify-end">
+                    {u.is_admin !== 1 && (
+                      <button 
+                        onClick={() => toggleMaster(u.id, u.is_master)}
+                        className={`px-3 py-1.5 rounded-md text-xs font-bold transition-colors ${u.is_master === 1 ? 'bg-orange/10 text-orange hover:bg-orange/20' : 'bg-green/10 text-green hover:bg-green/20'}`}
+                      >
+                        {u.is_master === 1 ? 'Poista Master' : 'Tee Master'}
+                      </button>
+                    )}
                     <button 
-                      onClick={() => deleteProduct(p.id)} 
-                      className="text-red font-bold text-[13px] md:text-[14px] bg-red/10 px-3 py-1.5 rounded-md hover:bg-red hover:text-white transition-colors"
+                      onClick={() => deleteUser(u.id)}
+                      className="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffebee] text-[#d32f2f] hover:bg-[#ffcdd2]"
                     >
                       Poista
                     </button>
@@ -116,8 +175,48 @@ export const Admin = () => {
               ))}
             </tbody>
           </table>
-        )}
-      </div>
+        </div>
+      )}
+
+      {activeTab === 'products' && (
+        <div className="bg-white rounded-xl shadow-sm border border-border overflow-hidden">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-fill-1 border-b border-border text-text-2 text-sm">
+                <th className="p-4 font-bold">Otsikko</th>
+                <th className="p-4 font-bold">Kategoria</th>
+                <th className="p-4 font-bold">Status</th>
+                <th className="p-4 font-bold text-right">Toiminnot</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map(p => (
+                <tr key={p.id} className="border-b border-border last:border-0 hover:bg-fill-1/50">
+                  <td className="p-4 font-semibold text-text-1 line-clamp-1">{p.title}</td>
+                  <td className="p-4 text-text-3">{p.category}</td>
+                  <td className="p-4">
+                    <span className="bg-fill-2 text-text-3 px-2 py-1 rounded text-xs font-bold uppercase">{p.status}</span>
+                  </td>
+                  <td className="p-4 flex gap-2 justify-end">
+                    <button 
+                      onClick={() => editProductTitle(p.id, p.title)}
+                      className="px-3 py-1.5 rounded-md text-xs font-bold bg-blue/10 text-blue hover:bg-blue/20"
+                    >
+                      Muokkaa
+                    </button>
+                    <button 
+                      onClick={() => deleteProduct(p.id)}
+                      className="px-3 py-1.5 rounded-md text-xs font-bold bg-[#ffebee] text-[#d32f2f] hover:bg-[#ffcdd2]"
+                    >
+                      Poista
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

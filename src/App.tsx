@@ -32,7 +32,7 @@ export default function App() {
           <Route path="register" element={<Register />} />
           <Route path="add" element={<AddItem />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>

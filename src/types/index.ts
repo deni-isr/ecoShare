@@ -13,4 +13,5 @@ export interface Product {
   created_at?: string;
   time?: string;
   images?: string[];
+  user_id?: number;
 }
