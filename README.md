@@ -83,10 +83,11 @@ Back-endin ohjelmistotestit on toteutettu Jest- ja Supertest-kirjastoilla. Teste
 * Kurssin opetusmateriaalit (Hybridisovellukset).
 * Viralliset dokumentaatiot: React.dev, Expressjs.com, Tailwindcss.com.
 
-## 🐛 Tiedossa olevat bugit ja ongelmat
+##Bugit ja ongelmat
 
 * Ilmaisen pilvipalvelimen (Render) vuoksi back-end saattaa mennä ns. "nukkumaan" inaktiivisuuden jälkeen. Tämän vuoksi sovelluksen ensimmäinen lataus voi kestää 15-30 sekuntia.
-* iOS-laitteilla kuvien lataaminen saattaa vaatia selaimen kameran/kuvagallerian käyttöoikeuksien manuaalisen hyväksymisen puhelimen asetuksista.
+* **Navigointipalkin (Navbar) päivitysviive:** Uloskirjautumisen yhteydessä Navbar saattaa joskus jättää näkyviin kirjautuneen käyttäjän painikkeita (esim. "+ Lisää"). Ongelma poistuu päivittämällä sivu selaimessa (Refresh).
+* **Kuvien lataus mobiilissa:** Sekä iOS- että Android-laitteilla kuvien lisääminen ilmoitukseen edellyttää, että käyttäjä myöntää selaimelle käyttöoikeuden laitteen kuvagalleriaan. Jos luvat on vahingossa evätty, ne täytyy käydä sallimassa puhelimen asetuksista.
 
 ## 🖼️ Kuvakaappaukset käyttöliittymästä
 
