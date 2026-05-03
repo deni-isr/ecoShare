@@ -43,7 +43,7 @@ Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 3. `favorites`: Välitaulu, joka yhdistää `users.id` ja `products.id` monesta-moneen -suhteella.
 
 **Tietokantakaavio:**
-![Tietokantakaavio](./tietokanta-kuva.png)
+![Tietokantakaavio](./kuva/tietokanta-kuva.png)
 
 ## API-dokumentaatio
 
