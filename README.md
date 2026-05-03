@@ -7,15 +7,15 @@
 
 ## Testikäyttäjien tunnukset
 
-** Admin käyttäjä:**
+**Admin käyttäjä:**
 * Säh: admin@gmail.com
 * Sal: salasana123
 
-** Korjaaja käyttäjä:**
+**Korjaaja käyttäjä:**
 * Säh: master@gmail.com
 * Sal: salasana123
 
-** Normaali käyttäjä:**
+**Normaali käyttäjä:**
 * Säh: test@gmail.com
 * Sal: salasana123
 
