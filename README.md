@@ -1,7 +1,5 @@
 # EcoShare
 
-EcoShare on kiertotaloutta ja kestävää kehitystä edistävä verkkosovellus. Sovelluksen pääideana on tarjota alusta, jossa käyttäjät voivat antaa, myydä tai etsiä korjattavia ja käytettyjä tavaroita. Sovellus yhdistää tavalliset käyttäjät ja viralliset korjaajat (Master-käyttäjät), jotta rikkinäiset tavarat saavat uuden elämän roskakorin sijaan.
-
 ## Linkit
 
 * **Sovellus:** [linkki](https://eco-share-kohl.vercel.app/)
@@ -23,15 +21,15 @@ EcoShare on kiertotaloutta ja kestävää kehitystä edistävä verkkosovellus. 
 
 ## Toteutetut toiminnallisuudet
 
-Sovelluksessa on toteutettu seuraavat ominaisuudet ja vaatimukset:
-* **Käyttäjähallinta ja autentikaatio:** Rekisteröityminen, sisäänkirjautuminen (JWT/localStorage) ja uloskirjautuminen.
-* **Käyttäjäroolit (UCD - User-Centered Design):** * *Normaali käyttäjä:* Voi luoda, muokata ja poistaa omia ilmoituksiaan sekä lisätä muiden tuotteita suosikkeihin.
-  * *Virallinen korjaaja (Master):* Saa profiiliinsa luotettavuusmerkin ja on ainoa, joka näkee "Kaipaa korjausta" -statuksella olevat ilmoitukset (edistää kiertotalouden liiketoimintaa).
+* **Käyttäjähallinta ja autentikaatio:** Rekisteröityminen, sisäänkirjautuminen ja uloskirjautuminen.
+* **Käyttäjäroolit:** *
+  * *Normaali käyttäjä:* Voi luoda, muokata ja poistaa omia ilmoituksiaan sekä lisätä muiden tuotteita suosikkeihin.
+  * *Korjaaja:* Ainoa joka näkee "Kaipaa korjausta" statuksella olevat ilmoitukset.
   * *Admin:* Pääsy hallintapaneeliin, jossa voi jakaa Master-oikeuksia, muokata ilmoitusten otsikoita ja poistaa asiatonta sisältöä.
-* **Tiedostojen lataus:** Käyttäjät voivat ladata tuotekuvia ja profiilikuvia (Multer).
+* **Tiedostojen lataus:** Käyttäjät voivat ladata tuotekuvia ja profiilikuvia.
 * **Suosikkijärjestelmä:** Käyttäjät voivat tallentaa kiinnostavia ilmoituksia omaan profiiliinsa.
 * **Hakutoiminnot:** Reaaliaikainen tekstihaku ja kategorisointi.
-* **Responsiivisuus:** Käyttöliittymä mukautuu täysin mobiililaitteille.
+* **Responsiivisuus:** Käyttöliittymä mukautuu täysin mobiililaitteille ja se on PWA.
 
 ## Tietokannan rakenne
 
@@ -54,12 +52,12 @@ Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 | POST | `/api/users/avatar/:id` | Päivittää käyttäjän profiilikuvan |
 | GET | `/api/products` | Hakee kaikki julkiset ilmoitukset |
 | GET | `/api/products/user/:id` | Hakee tietyn käyttäjän omat ilmoitukset |
-| POST | `/api/products` | Luo uuden ilmoituksen (vaatii kirjautumisen) |
+| POST | `/api/products` | Luo uuden ilmoituksen |
 | PUT | `/api/products/:id` | Päivittää ilmoituksen tietoja |
 | DELETE | `/api/products/:id` | Poistaa ilmoituksen |
 | POST | `/api/favorites/toggle` | Lisää tai poistaa tuotteen suosikeista |
-| GET | `/api/admin/users` | Hakee listan kaikista käyttäjistä (Vain Admin) |
-| PUT | `/api/admin/users/:id/master`| Antaa tai poistaa Master-roolin (Vain Admin) |
+| GET | `/api/admin/users` | Hakee listan kaikista käyttäjistä |
+| PUT | `/api/admin/users/:id/master`| Antaa tai poistaa Master-roolin |
 
 ## Ohjelmistotestaus
 
@@ -67,17 +65,14 @@ Back-endin ohjelmistotestit on toteutettu Jest- ja Supertest-kirjastoilla. Teste
 * **Testitiedostojen sijainti:** [linkki](https://github.com/deni-isr/ecoShare_backend/blob/main/api.test.js)
 * Testit voi ajaa lokaalisti komennolla: `npm run test`
 
-## 🛠️ Käytetyt teknologiat ja referenssit
+## Käytetyt teknologiat ja referenssit
 
 **Teknologiat:**
 * Front-end: React, TypeScript, Vite, Tailwind CSS, React Router
-* Back-end: Node.js, Express.js, Multer (kuvien käsittely), CORS
-* Tietokanta: MySQL (Clever Cloud)
-* Palvelimet/Hosting: Vercel (Front-end), Render (Back-end)
+* Back-end: Node.js, Express.js
+* Tietokanta: MySQL
+* Hosting: Front-end: Vercel , Back-end: Render
 
-**Referenssit:**
-* Kurssin opetusmateriaalit (Hybridisovellukset).
-* Viralliset dokumentaatiot: React.dev, Expressjs.com, Tailwindcss.com.
 
 ## Bugit ja ongelmat
 
@@ -85,9 +80,8 @@ Back-endin ohjelmistotestit on toteutettu Jest- ja Supertest-kirjastoilla. Teste
 * Uloskirjautumisen yhteydessä navbar jättää näkyviin kirjautuneen käyttäjän painikkeita. Ongelma poistuu päivittämällä sivu selaimessa.
 * Kuvien lataus, sekä ios että android laitteilla kuvien lisääminen ilmoitukseen edellyttää, että käyttäjä myöntää selaimelle käyttöoikeuden laitteen kuvagalleriaan.
 
-## 🖼️ Kuvakaappaukset käyttöliittymästä
+## Kuvakaappaukset käyttöliittymästä
 
 ![Etusivu ja tuotteet](./screenshot-home.png)
-![Käyttäjän profiili ja Master-merkki](./screenshot-profile.png)
+![Profiili](./screenshot-profile.png)
 ![Admin hallintapaneeli](./screenshot-admin.png)
-*(Huom: Ota nämä kolme kuvakaappausta ja tallenna ne samaan kansioon README:n kanssa näillä nimillä)*
