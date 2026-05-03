@@ -4,8 +4,8 @@ EcoShare on kiertotaloutta ja kestävää kehitystä edistävä verkkosovellus. 
 
 ## Linkit
 
-* **Julkaistu sovellus (Front-end, Vercel):** [linkki](https://eco-share-kohl.vercel.app/)
-* **Back-end API (Render):** [linkki](https://ecoshare-backend.onrender.com/)
+* **Sovellus:** [linkki](https://eco-share-kohl.vercel.app/)
+* **Back-end API:** [linkki](https://ecoshare-backend.onrender.com/)
 
 ## Testikäyttäjien tunnukset
 
