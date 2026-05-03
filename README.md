@@ -7,15 +7,15 @@
 
 ## Testikäyttäjien tunnukset
 
-**1. Admin käyttäjä:**
+** Admin käyttäjä:**
 * Säh: admin@gmail.com
 * Sal: salasana123
 
-**2. Korjaaja käyttäjä:**
+** Korjaaja käyttäjä:**
 * Säh: master@gmail.com
 * Sal: salasana123
 
-**3. Normaali käyttäjä:**
+** Normaali käyttäjä:**
 * Säh: test@gmail.com
 * Sal: salasana123
 
@@ -81,6 +81,7 @@ Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 
 ## Kuvakaappaukset käyttöliittymästä
 
-![Etusivu ja tuotteet](./screenshot-home.png)
-![Profiili](./screenshot-profile.png)
-![Admin hallintapaneeli](./screenshot-admin.png)
+![Etusivu ja tuotteet](./kuva/screenshot-home.png)
+![Profiili](./kuva/screenshot-profile.png)
+![Admin hallintapaneeli](./kuva/screenshot-admin.png) (./kuva/screenshot-adminIlm.png)
+![+ Lisää](./kuva/screenshot-add.png)
