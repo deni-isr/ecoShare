@@ -25,7 +25,7 @@
 * **Käyttäjäroolit:** *
   * *Normaali käyttäjä:* Voi luoda, muokata ja poistaa omia ilmoituksiaan sekä lisätä muiden tuotteita suosikkeihin.
   * *Korjaaja:* Ainoa joka näkee "Kaipaa korjausta" statuksella olevat ilmoitukset.
-  * *Admin:* Pääsy hallintapaneeliin, jossa voi jakaa Master-oikeuksia, muokata ilmoitusten otsikoita ja poistaa asiatonta sisältöä.
+  * *Admin:* Pääsy hallintapaneeliin, jossa voi jakaa Korjaaja-oikeuksia, muokata ilmoitusten otsikoita ja poistaa asiatonta sisältöä.
 * **Tiedostojen lataus:** Käyttäjät voivat ladata tuotekuvia ja profiilikuvia.
 * **Suosikkijärjestelmä:** Käyttäjät voivat tallentaa kiinnostavia ilmoituksia omaan profiiliinsa.
 * **Hakutoiminnot:** Reaaliaikainen tekstihaku ja kategorisointi.
