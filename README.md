@@ -21,7 +21,7 @@ EcoShare on kiertotaloutta ja kestävää kehitystä edistävä verkkosovellus. 
 * Säh: test@gmail.com
 * Sal: salasana123
 
-## ✨ Toteutetut toiminnallisuudet
+## Toteutetut toiminnallisuudet
 
 Sovelluksessa on toteutettu seuraavat ominaisuudet ja vaatimukset:
 * **Käyttäjähallinta ja autentikaatio:** Rekisteröityminen, sisäänkirjautuminen (JWT/localStorage) ja uloskirjautuminen.
@@ -61,10 +61,10 @@ Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 | GET | `/api/admin/users` | Hakee listan kaikista käyttäjistä (Vain Admin) |
 | PUT | `/api/admin/users/:id/master`| Antaa tai poistaa Master-roolin (Vain Admin) |
 
-## 🧪 Ohjelmistotestaus
+## Ohjelmistotestaus
 
 Back-endin ohjelmistotestit on toteutettu Jest- ja Supertest-kirjastoilla. Testeissä tarkistetaan API:n perustoiminnallisuudet, kuten tuotteiden hakeminen ja virheellisten reittien käsittely.
-* **Testitiedostojen sijainti:** [Laita linkki testikansioosi tähän, esim. `https://github.com/sinun-tunnus/ecoshare-backend/blob/main/api.test.js`]
+* **Testitiedostojen sijainti:** [linkki](https://github.com/deni-isr/ecoShare_backend/blob/main/api.test.js)
 * Testit voi ajaa lokaalisti komennolla: `npm run test`
 
 ## 🛠️ Käytetyt teknologiat ja referenssit
