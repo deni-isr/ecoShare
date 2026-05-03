@@ -8,21 +8,19 @@ EcoShare on kiertotaloutta ja kestävää kehitystä edistävä verkkosovellus. 
 * **Back-end API (Render):** [Laita Render-linkki tähän, esim. https://ecoshare-backend.onrender.com]
 * **Rautalankamallit / UI-suunnitelma:** [Laita linkki Figmaan tai kuvaan tähän]
 
-## 🔑 Testikäyttäjien tunnukset
+## Testikäyttäjien tunnukset
 
-Opettajat ja testaajat voivat käyttää seuraavia tunnuksia sovelluksen eri roolien testaamiseen:
+**1. Admin käyttäjä:**
+* Säh: admin@gmail.fi
+* Sal: salasana123
 
-**1. Ylläpitäjä (Admin) - Voi hallita käyttäjiä ja muokata/poistaa ilmoituksia:**
-* Sähköposti/Tunnus: [Sinun admin-sähköpostisi]
-* Salasana: [Sinun admin-salasanasi]
-
-**2. Virallinen Korjaaja (Master) - Näkee piilotetut "Kaipaa korjausta" -ilmoitukset:**
-* Sähköposti: [Luo tai laita tähän master-käyttäjän sähköposti]
-* Salasana: [Master-käyttäjän salasana]
+**2. Korjaaja käyttäjä:**
+* Säh: master@gmail.fi
+* Sal: salasana123
 
 **3. Normaali käyttäjä:**
-* Sähköposti: test@test.fi
-* Salasana: 123456
+* Säh: test@gmail.fi
+* Sal: salasana123
 
 ## ✨ Toteutetut toiminnallisuudet
 
@@ -36,20 +34,19 @@ Sovelluksessa on toteutettu seuraavat ominaisuudet ja vaatimukset:
 * **Hakutoiminnot:** Reaaliaikainen tekstihaku ja kategorisointi.
 * **Responsiivisuus:** Käyttöliittymä mukautuu täysin mobiililaitteille.
 
-## 🗄️ Tietokannan rakenne
+## Tietokannan rakenne
 
-Sovellus käyttää relaatiotietokantaa (MySQL), joka on isännöity Clever Cloudissa.
+Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 
 **Päätaulut:**
 1. `users`: Tallentaa käyttäjätiedot. Sisältää boolean-kentät `is_admin` ja `is_master` roolien hallintaa varten.
 2. `products`: Tallentaa ilmoitukset. Sisältää vierasavaimen `user_id`, joka viittaa ilmoituksen jättäjään (ON DELETE CASCADE).
 3. `favorites`: Välitaulu, joka yhdistää `users.id` ja `products.id` monesta-moneen -suhteella.
 
-**Tietokantakaavio (ER-kaavio):**
+**Tietokantakaavio:**
 ![Tietokantakaavio](./tietokanta-kuva.png)
-*(Huom: Tallenna tietokantakaavion kuva repositorioosi nimellä tietokanta-kuva.png)*
 
-## 🔌 API-dokumentaatio (REST API)
+## API-dokumentaatio
 
 | Metodi | Reitti | Kuvaus |
 |---|---|---|
@@ -85,9 +82,9 @@ Back-endin ohjelmistotestit on toteutettu Jest- ja Supertest-kirjastoilla. Teste
 
 ## Bugit ja ongelmat
 
-* Ilmaisen pilvipalvelimen (Render) vuoksi back-end saattaa mennä ns. "nukkumaan" inaktiivisuuden jälkeen. Tämän vuoksi sovelluksen ensimmäinen lataus voi kestää 15-30 sekuntia.
-* **Navigointipalkin (Navbar) päivitysviive:** Uloskirjautumisen yhteydessä Navbar saattaa joskus jättää näkyviin kirjautuneen käyttäjän painikkeita (esim. "+ Lisää"). Ongelma poistuu päivittämällä sivu selaimessa (Refresh).
-* **Kuvien lataus mobiilissa:** Sekä iOS- että Android-laitteilla kuvien lisääminen ilmoitukseen edellyttää, että käyttäjä myöntää selaimelle käyttöoikeuden laitteen kuvagalleriaan. Jos luvat on vahingossa evätty, ne täytyy käydä sallimassa puhelimen asetuksista.
+* Ilmaisen pilvipalvelimen vuoksi back-end saattaa mennä nukkumaan. Tämän vuoksi sovelluksen ensimmäinen lataus voi kestää 15-30 sekuntia.
+* Uloskirjautumisen yhteydessä navbar jättää näkyviin kirjautuneen käyttäjän painikkeita. Ongelma poistuu päivittämällä sivu selaimessa.
+* Kuvien lataus, sekä ios että android laitteilla kuvien lisääminen ilmoitukseen edellyttää, että käyttäjä myöntää selaimelle käyttöoikeuden laitteen kuvagalleriaan.
 
 ## 🖼️ Kuvakaappaukset käyttöliittymästä
 
