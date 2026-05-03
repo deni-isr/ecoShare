@@ -11,15 +11,15 @@ EcoShare on kiertotaloutta ja kestävää kehitystä edistävä verkkosovellus. 
 ## Testikäyttäjien tunnukset
 
 **1. Admin käyttäjä:**
-* Säh: admin@gmail.fi
+* Säh: admin@gmail.com
 * Sal: salasana123
 
 **2. Korjaaja käyttäjä:**
-* Säh: master@gmail.fi
+* Säh: master@gmail.com
 * Sal: salasana123
 
 **3. Normaali käyttäjä:**
-* Säh: test@gmail.fi
+* Säh: test@gmail.com
 * Sal: salasana123
 
 ## ✨ Toteutetut toiminnallisuudet
