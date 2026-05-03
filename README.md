@@ -79,7 +79,7 @@ Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 * Uloskirjautumisen yhteydessä navbar jättää näkyviin kirjautuneen käyttäjän painikkeita. Ongelma poistuu päivittämällä sivu selaimessa.
 * Kuvien lataus, sekä ios että android laitteilla kuvien lisääminen ilmoitukseen edellyttää, että käyttäjä myöntää selaimelle käyttöoikeuden laitteen kuvagalleriaan.
 
-## Käyttöliittymä kuvat
+## Käyttöliittymän kuvat
 
 ![Etusivu ja tuotteet](./kuva/screenshot-home.png)
 ![Profiili](./kuva/screenshot-profile.png)
