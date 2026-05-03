@@ -22,7 +22,7 @@
 ## Toteutetut toiminnallisuudet
 
 * **Käyttäjähallinta ja autentikaatio:** Rekisteröityminen, sisäänkirjautuminen ja uloskirjautuminen.
-* **Käyttäjäroolit:** *
+* **Käyttäjäroolit:**
   * *Normaali käyttäjä:* Voi luoda, muokata ja poistaa omia ilmoituksiaan sekä lisätä muiden tuotteita suosikkeihin.
   * *Korjaaja:* Ainoa joka näkee "Kaipaa korjausta" statuksella olevat ilmoitukset.
   * *Admin:* Pääsy hallintapaneeliin, jossa voi jakaa Korjaaja-oikeuksia, muokata ilmoitusten otsikoita ja poistaa asiatonta sisältöä.
