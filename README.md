@@ -83,5 +83,6 @@ Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 
 ![Etusivu ja tuotteet](./kuva/screenshot-home.png)
 ![Profiili](./kuva/screenshot-profile.png)
-![Admin hallintapaneeli](./kuva/screenshot-admin.png) (./kuva/screenshot-adminIlm.png)
+![Admin](./kuva/screenshot-admin.png) 
+![Admin ilmoi](./kuva/screenshot-adminIlm.png)
 ![+ Lisää](./kuva/screenshot-add.png)
