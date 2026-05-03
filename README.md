@@ -2,11 +2,10 @@
 
 EcoShare on kiertotaloutta ja kestävää kehitystä edistävä verkkosovellus. Sovelluksen pääideana on tarjota alusta, jossa käyttäjät voivat antaa, myydä tai etsiä korjattavia ja käytettyjä tavaroita. Sovellus yhdistää tavalliset käyttäjät ja viralliset korjaajat (Master-käyttäjät), jotta rikkinäiset tavarat saavat uuden elämän roskakorin sijaan.
 
-## 🔗 Linkit
+## Linkit
 
-* **Julkaistu sovellus (Front-end, Vercel):** [Laita Vercel-linkki tähän, esim. https://ecoshare.vercel.app]
-* **Back-end API (Render):** [Laita Render-linkki tähän, esim. https://ecoshare-backend.onrender.com]
-* **Rautalankamallit / UI-suunnitelma:** [Laita linkki Figmaan tai kuvaan tähän]
+* **Julkaistu sovellus (Front-end, Vercel):** [[linkki](https://eco-share-kohl.vercel.app/)]
+* **Back-end API (Render):** [[linkki](https://ecoshare-backend.onrender.com/)]
 
 ## Testikäyttäjien tunnukset
 
