@@ -61,7 +61,6 @@ Sovellus käyttää MySQL, joka on isännöity Clever Cloudissa.
 
 ## Ohjelmistotestaus
 
-Back-endin ohjelmistotestit on toteutettu Jest- ja Supertest-kirjastoilla. Testeissä tarkistetaan API:n perustoiminnallisuudet, kuten tuotteiden hakeminen ja virheellisten reittien käsittely.
 * **Testitiedostojen sijainti:** [linkki](https://github.com/deni-isr/ecoShare_backend/blob/main/api.test.js)
 * Testit voi ajaa lokaalisti komennolla: `npm run test`
 
