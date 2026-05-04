@@ -16,7 +16,7 @@
 * Sal: salasana123
 
 **Normaali käyttäjä:**
-* Säh: test@gmail.com
+* Säh: testikay@gmail.com
 * Sal: salasana123
 
 ## Toteutetut toiminnallisuudet
